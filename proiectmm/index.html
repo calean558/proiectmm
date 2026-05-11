@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderlust — Travel Blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --cream: #f8f4ef;
+  --dark: #1a1714;
+  --accent: #b5683a;
+  --mid: #6b5c4e;
+  --light-mid: #d4c8bc;
+  --white: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--dark);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  background: rgba(248, 244, 239, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--light-mid);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--dark);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.8rem;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--mid);
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.hero {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem 3rem;
+  background: linear-gradient(160deg, #2c2118 0%, #1a1714 60%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(5rem, 22vw, 18rem);
+  font-weight: 300;
+  color: rgba(255,255,255,0.04);
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: -0.02em;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 10vw, 6rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 1.2rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--light-mid);
+}
+
+.hero p {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.95rem;
+  max-width: 38ch;
+  line-height: 1.7;
+}
+
+.divider {
+  width: 3rem;
+  height: 1px;
+  background: var(--accent);
+  margin: 2rem 1.5rem;
+}
+
+.section-header {
+  padding: 3rem 1.5rem 1.5rem;
+}
+
+.section-tag {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 7vw, 3.5rem);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--dark);
+}
+
+.destinations-intro {
+  padding: 0 1.5rem 2rem;
+  color: var(--mid);
+  font-size: 0.9rem;
+  max-width: 55ch;
+  line-height: 1.8;
+}
+
+.photo-grid {
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.photo-card {
+  position: relative;
+}
+
+.photo-card img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-card.tall img {
+  aspect-ratio: 3/4;
+}
+
+.photo-meta {
+  padding: 1rem 0 0;
+}
+
+.photo-location {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 0.3rem;
+}
+
+.photo-technique {
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--mid);
+  border-left: 2px solid var(--accent);
+  padding-left: 0.6rem;
+}
+
+.photo-desc {
+  margin-top: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--mid);
+  line-height: 1.7;
+}
+
+.featured-section {
+  margin: 3rem 0;
+  background: var(--dark);
+  padding: 3rem 1.5rem;
+}
+
+.featured-section .section-title {
+  color: var(--white);
+}
+
+.featured-section .section-tag {
+  color: var(--accent);
+}
+
+.featured-section .destinations-intro {
+  padding: 0 0 2rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.featured-section .photo-location {
+  color: var(--white);
+}
+
+.featured-section .photo-technique {
+  color: var(--light-mid);
+}
+
+.featured-section .photo-desc {
+  color: rgba(255,255,255,0.5);
+}
+
+.about-section {
+  padding: 3rem 1.5rem 4rem;
+  background: var(--white);
+}
+
+.about-section .section-title {
+  margin-bottom: 2rem;
+}
+
+.about-card {
+  border: 1px solid var(--light-mid);
+  padding: 1.5rem;
+  margin-bottom: 1.2rem;
+  position: relative;
+}
+
+.about-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent);
+}
+
+.about-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 0.8rem;
+}
+
+.about-detail {
+  font-size: 0.83rem;
+  color: var(--mid);
+  margin-bottom: 0.3rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.about-detail span:first-child {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  min-width: 5rem;
+}
+
+.project-desc {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--cream);
+  border-top: 2px solid var(--accent);
+}
+
+.project-desc p {
+  font-size: 0.88rem;
+  color: var(--mid);
+  line-height: 1.8;
+}
+
+.project-desc p + p {
+  margin-top: 0.8rem;
+}
+
+footer {
+  background: var(--dark);
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+footer p {
+  color: rgba(255,255,255,0.3);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+@media (min-width: 640px) {
+  .photo-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .photo-card.wide {
+    grid-column: span 2;
+  }
+
+  .photo-card.wide img {
+    aspect-ratio: 16/9;
+  }
+}
+
+@media (min-width: 900px) {
+  nav {
+    padding: 1.2rem 3rem;
+  }
+
+  .hero {
+    padding: 2rem 3rem 4rem;
+  }
+
+  .divider {
+    margin: 3rem 3rem;
+  }
+
+  .section-header {
+    padding: 4rem 3rem 1.5rem;
+  }
+
+  .destinations-intro {
+    padding: 0 3rem 2.5rem;
+  }
+
+  .photo-grid {
+    padding: 0 3rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .photo-card.wide {
+    grid-column: span 2;
+  }
+
+  .featured-section {
+    padding: 4rem 3rem;
+  }
+
+  .featured-section .photo-grid {
+    padding: 0;
+  }
+
+  .about-section {
+    padding: 4rem 3rem 5rem;
+  }
+
+  .about-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .about-cards-grid .about-card {
+    margin-bottom: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#top">Wanderlust</a>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinatii</a></li>
+    <li><a href="#despre-noi">Despre noi</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="top">
+  <div class="hero-bg-text">Travel</div>
+  <div class="hero-content">
+    <p class="hero-tag">Travel Blog — Europa</p>
+    <h1>Locuri care<br><em>raman cu tine</em></h1>
+    <p>Un jurnal vizual al calatoriilor noastre prin orasele Europei — Paris, Londra, Amsterdam, Barcelona.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="destinations">
+  <div class="section-header">
+    <p class="section-tag">Galerie foto</p>
+    <h2 class="section-title">Paris, Franta</h2>
+  </div>
+  <p class="destinations-intro">Montmartre, cu strazile sale pavate si casele acoperite de iederă, este unul dintre cele mai pitoresti cartiere pariziene. Fiecare colt ascunde o poveste.</p>
+
+  <div class="photo-grid">
+    <div class="photo-card tall">
+      <img src="images/tehnica_contrast_saturatie_conturare.jpeg" alt="Montmartre, Paris - cladire acoperita cu iederă">
+      <div class="photo-meta">
+        <p class="photo-location">Montmartre, Paris</p>
+        <p class="photo-technique">Tehnica: ajustare contrast, saturatie si conturare</p>
+        <p class="photo-desc">Constructie haussmanniana acoperita de vita de vie, la intersectia dintre Rue Lepic si Rue Girardon. Doi muzicieni stradali completeaza atmosfera.</p>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="images/tehnica_cromatica_conturare.jpeg" alt="La Maison Rose, Montmartre">
+      <div class="photo-meta">
+        <p class="photo-location">La Maison Rose, Montmartre</p>
+        <p class="photo-technique">Tehnica: ajustare cromatica si conturare</p>
+        <p class="photo-desc">Restaurantul roz cu obloanele verzi, unul dintre cele mai fotografiate locuri din Paris, pe Rue de l'Abreuvoir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <div class="section-header">
+    <p class="section-tag">Galerie foto</p>
+    <h2 class="section-title">Amsterdam, Olanda</h2>
+  </div>
+  <p class="destinations-intro">Canalele, bicicletele si turnurile gotice — Amsterdam are o energie aparte in orice anotimp.</p>
+
+  <div class="photo-grid">
+    <div class="photo-card wide">
+      <img src="images/tehnica_luminozitate_umbre_contrast_temperatura_culoare.jpeg" alt="Canal Amsterdam cu turnuri gotice">
+      <div class="photo-meta">
+        <p class="photo-location">Heiligwegsluis, Amsterdam</p>
+        <p class="photo-technique">Tehnica: ajustare luminozitate, umbre, contrast si temperatura culoare</p>
+        <p class="photo-desc">Vedere de pe podul Heiligwegsluis spre canalul Singel, cu turnurile Bisericii Nieuwe Kerk in fundal si o bicicleta clasica in prim-plan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="featured-section">
+  <div class="section-header" style="padding: 0 0 1.5rem;">
+    <p class="section-tag">Galerie foto</p>
+    <h2 class="section-title">Londra, Marea Britanie</h2>
+  </div>
+  <p class="destinations-intro" style="padding: 0 0 2rem;">Londra combina arhitectura victoriana cu modernul intr-un mod cu totul special. Westminster si Thames Southbank raman destinatii emblematice.</p>
+
+  <div class="photo-grid" style="padding: 0;">
+    <div class="photo-card">
+      <img src="images/tehnica_luminozitate_umbre_contrast_conturare.jpeg" alt="Big Ben, Westminster Bridge">
+      <div class="photo-meta">
+        <p class="photo-location">Westminster Bridge, Londra</p>
+        <p class="photo-technique">Tehnica: ajustare luminozitate, umbre, contrast si conturare</p>
+        <p class="photo-desc">Turnul Elizabeth (Big Ben) vazut de pe Westminster Bridge, cu turistii traversand podul sub un cer adanc albastru de toamna.</p>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="images/tehnica_luminozitate_umbre_contrast_conturare_2.jpeg" alt="Tower Bridge, Londra">
+      <div class="photo-meta">
+        <p class="photo-location">London Bridge City, Londra</p>
+        <p class="photo-technique">Tehnica: ajustare luminozitate, umbre, contrast si conturare</p>
+        <p class="photo-desc">Tower Bridge de pe esplanada London Bridge City, cu terasa The Scoop si cupola de sticla a Primariei in dreapta cadrului.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section>
+  <div class="section-header">
+    <p class="section-tag">Galerie foto</p>
+    <h2 class="section-title">Barcelona, Spania</h2>
+  </div>
+  <p class="destinations-intro">Plaja Barceloneta la apus — nisip auriu, muzica live si silueta hotelului W in fundal.</p>
+
+  <div class="photo-grid">
+    <div class="photo-card wide">
+      <img src="images/tehnica_crop_contrast_umbre_saturatie.jpeg" alt="Plaja Barceloneta la apus, Barcelona">
+      <div class="photo-meta">
+        <p class="photo-location">Plaja Barceloneta, Barcelona</p>
+        <p class="photo-technique">Tehnica: crop, ajustare contrast, umbre si saturatie</p>
+        <p class="photo-desc">Doi muzicieni stradali canta pe plaja Barceloneta la caderea serii, cu silueta arhitecturala a hotelului W Barcelona reflectata in apele Mediteranei.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="about-section" id="despre-noi">
+  <div class="section-header" style="padding: 0 0 0.5rem;">
+    <p class="section-tag">Echipa</p>
+    <h2 class="section-title">Despre noi</h2>
+  </div>
+
+  <div class="about-cards-grid" style="margin-top: 2rem;">
+    <div class="about-card">
+      <p class="about-name">Calin Andrei David</p>
+      <div class="about-detail"><span>Facultatea</span><span>Marketing</span></div>
+      <div class="about-detail"><span>Specializarea</span><span>Marketing</span></div>
+      <div class="about-detail"><span>Anul</span><span>II</span></div>
+      <div class="about-detail"><span>Grupa</span><span>1721A</span></div>
+      <div class="about-detail"><span>Seria</span><span>A</span></div>
+      <div class="about-detail"><span>Universitatea</span><span>Academia de Studii Economice din Bucuresti</span></div>
+    </div>
+    <div class="about-card">
+      <p class="about-name">Andrescu Claudia Maria</p>
+      <div class="about-detail"><span>Facultatea</span><span>Marketing</span></div>
+      <div class="about-detail"><span>Specializarea</span><span>Marketing</span></div>
+      <div class="about-detail"><span>Anul</span><span>II</span></div>
+      <div class="about-detail"><span>Grupa</span><span>1721A</span></div>
+      <div class="about-detail"><span>Seria</span><span>A</span></div>
+      <div class="about-detail"><span>Universitatea</span><span>Academia de Studii Economice din Bucuresti</span></div>
+    </div>
+  </div>
+
+  <div class="project-desc">
+    <p>Acest site reprezinta proiectul pentru disciplina Multimedia Marketing, realizat in cadrul Academiei de Studii Economice din Bucuresti, Facultatea de Marketing, Anul II, Grupa 1721A, Seria A.</p>
+    <p>Proiect realizat de: Calin Andrei David si Andrescu Claudia Maria. Tema aleasa: Travel Blog — Europa. Imaginile sunt originale, realizate si procesate personal, folosind tehnici de editare prezentate in materialele de curs.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Wanderlust Travel Blog — Calin Andrei David & Andrescu Claudia Maria — ASE Bucuresti, Marketing, Anul II, 1721A, Seria A</p>
+</footer>
+
+</body>
+</html>
